@@ -2,8 +2,8 @@ import torch
 from torch import nn
 
 class model(nn.Module):
-   def __init__(self, d_model, max_len=1000):
-        super().__init__()
-
+   def __init__(self, hid_dim):
+      super().__init__()
+      self.linear = nn.Linear(hid_dim)   
   def forward():
-        pass
+        return self.linear
