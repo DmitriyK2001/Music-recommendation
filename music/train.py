@@ -1,5 +1,6 @@
 import torch
 from model import model
+from torchtext.data import BucketIterator
 
 def train_model(model, iterator, optimizer, criterion, clip, train_history=None, valid_history=None):
     model.train()
