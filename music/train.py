@@ -24,9 +24,10 @@ def train_model(model, iterator, optimizer, criterion, clip, train_history=None,
 
     return epoch_loss / len(iterator)
 
-def train():
+def train(num_layes, hid_dim):
+    model = model(num_layers, hid_dim)
     optimizer = torch.optim.Adam(model.parameters(), lr = 0.01)
     critetion = torch.nn.CrossEntropyLoss()
     CLIP = 1
     iterator = BucketIterator(data, BATCH_SIZE = 128)
-    train_model(iterator, optimizer, critetion, CLIP)
+    train_model(model, iterator, optimizer, critetion, CLIP)
