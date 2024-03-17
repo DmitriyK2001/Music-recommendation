@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 class model(nn.Module):
-   def __init__(self, hid_dim):
+   def __init__(self, num_layers, hid_dim):
       super().__init__()
       self.linear = nn.Linear(hid_dim, hid_dim)
       self.act = nn.ReLU()
