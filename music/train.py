@@ -1,3 +1,5 @@
+import torch
+from model import model
 
 def train_model(model, iterator, optimizer, criterion, clip, train_history=None, valid_history=None):
     model.train()
@@ -23,4 +25,8 @@ def train_model(model, iterator, optimizer, criterion, clip, train_history=None,
     return epoch_loss / len(iterator)
 
 def train():
-  return
+    optimizer = torch.optim.Adam(model.parameters(), lr = 0.01)
+    critetion = torch.nn.CrossEntropyLoss()
+    CLIP = 1
+    iterator = BucketIterator(data, BATCH_SIZE = 128)
+    train_model(iterator, optimizer, critetion, CLIP)
