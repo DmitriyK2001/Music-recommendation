@@ -1,3 +1,5 @@
+# it is not final model, it is only to fill this class
+
 import torch
 from torch import nn
 
