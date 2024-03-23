@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "Music-recommendation"
+version = "0.1.0"
+description = "MLOPS Music-recommendation project"
+authors = ["Dmitriy Kulish <kulish.da@phystech.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+torch = "^2.2.1"
+torchtext = "^0.17.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
