@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "Music-recommendation"
+name = "music-recommendation system"
 version = "0.1.0"
-description = "MLOPS Music-recommendation project"
-authors = ["Dmitriy Kulish <kulish.da@phystech.edu>"]
+description = "Music-recommendation system for MLOPS project"
+authors = ["DmitriyK2001 <kulish.da@phystech.edu>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
