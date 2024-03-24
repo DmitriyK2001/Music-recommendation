@@ -2,7 +2,7 @@
 name = "music-recommendation"
 version = "0.1.0"
 description = "Music-recommendation system for MLoPS project"
-authors = ["Your Name <you@example.com>"]
+authors = ["Dmitriy Kulish <kulish.da@phystech.edu>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
