@@ -1,34 +1,33 @@
-import torch
-from model import model
-from torchtext.data import BucketIterator
+import pandas as pd
+from data_loader import preprocess
+from scipy.sparse import coo_matrix
+import numpy as np
+from scipy import io
 
-def train_model(model, iterator, optimizer, criterion, clip, train_history=None, valid_history=None):
-    model.train()
+def train():
+    user_song_list_count = preprocess()
+    user_song_list_listen = user_song_list_count[['user','listen_count']].groupby('user').sum().reset_index()
+    user_song_list_listen.rename(columns={'listen_count':'total_listen_count'},inplace=True)
+    user_song_list_count_merged = pd.merge(user_song_list_count,user_song_list_listen)
+    user_song_list_count_merged['fractional_play_count'] = \
+        user_song_list_count_merged['listen_count']/user_song_list_count_merged['total_listen_count']
 
-    epoch_loss = 0
-    history = []
-    for i, batch in enumerate(iterator):
-        src = batch.src
-        trg = batch.trg
-        optimizer.zero_grad()
-        output = model(src, trg)
-        output = output[1:].view(-1, output.shape[-1])
-        trg = trg[1:].view(-1)
-        loss = criterion(output, trg)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
-        optimizer.step()
-        epoch_loss += loss.item()
+    user_codes = user_song_list_count_merged.user.drop_duplicates().reset_index()
+    user_codes.rename(columns={'index':'user_index'}, inplace=True)
+    user_codes['us_index_value'] = list(user_codes.index)
 
-        history.append(loss.cpu().data.numpy())
+    song_codes = user_song_list_count_merged.song.drop_duplicates().reset_index()
+    song_codes.rename(columns={'index':'song_index'}, inplace=True)
+    song_codes['so_index_value'] = list(song_codes.index)
 
+    small_set = pd.merge(user_song_list_count_merged,song_codes,how='left')
+    small_set = pd.merge(small_set,user_codes,how='left')
+    mat_candidate = small_set[['us_index_value','so_index_value','fractional_play_count']]
 
-    return epoch_loss / len(iterator)
+    data_array = mat_candidate.fractional_play_count.values
+    row_array = mat_candidate.us_index_value.values
+    col_array = mat_candidate.so_index_value.values
 
-def train(num_layes, hid_dim):
-    model = model(num_layers, hid_dim)
-    optimizer = torch.optim.Adam(model.parameters(), lr = 0.01)
-    critetion = torch.nn.CrossEntropyLoss()
-    CLIP = 1
-    iterator = BucketIterator(data, BATCH_SIZE = 128)
-    train_model(model, iterator, optimizer, critetion, CLIP)
+    data_sparse = coo_matrix((data_array, (row_array, col_array)),dtype=float)
+    io.hb_write('state_matrix.csv', data_sparse)
+    return data_sparse

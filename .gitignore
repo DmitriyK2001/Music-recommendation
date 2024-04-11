@@ -1,3 +1,3 @@
 *.vscode
-# extension of train-test files
-*.h5
+*.txt
+*.csv
