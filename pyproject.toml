@@ -7,11 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-torch = "^2.2.1"
-torchtext = "^0.17.1"
 fire = "^0.6.0"
 numpy = "^1.26.4"
 scipy = "^1.13.0"
+pandas = "^2.2.2"
 
 
 [build-system]
