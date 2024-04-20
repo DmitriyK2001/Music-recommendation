@@ -21,7 +21,6 @@ RUN apt-get update -y
 #installing Python
 RUN apt-get install python3 -y
 RUN apt-get install curl -y
-
 # Download poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
