@@ -1,5 +1,5 @@
 import pandas as pd
-from data_loader import preprocess
+from music.data_loader import preprocess
 from scipy.sparse import coo_matrix
 import numpy as np
 from scipy import io
@@ -29,5 +29,6 @@ def train():
     col_array = mat_candidate.so_index_value.values
 
     data_sparse = coo_matrix((data_array, (row_array, col_array)),dtype=float)
-    io.hb_write('state_matrix.csv', data_sparse)
+    io.hb_write('music/state_matrix.csv', data_sparse)
+    small_set.to_csv('music/small_set.csv', index=False)
     return data_sparse

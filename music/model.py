@@ -17,7 +17,7 @@ def compute_svd(urm, K):
     
     return U, S, Vt
 
-def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test):
+def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test, MAX_UID, MAX_PID):
     rightTerm = S*Vt 
     max_recommendation = 250
     estimatedRatings = np.zeros(shape=(MAX_UID, MAX_PID), dtype=np.float16)
@@ -28,7 +28,7 @@ def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test):
         recomendRatings[userTest, :] = (-estimatedRatings[userTest, :]).argsort()[:max_recommendation]
     return recomendRatings
 
-def show_recomendations(uTest, num_recomendations = 10):
+def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomendations = 10):
     for user in uTest:
         print('-'*70)
         print("Recommendation for user id {}".format(user))

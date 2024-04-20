@@ -2,8 +2,8 @@ import pandas as pd
 
 def preprocess():
     # preprocessing
-    track_metadata_df = pd.read_csv('song_data.csv')
-    count_play_df = pd.read_csv('10000.txt', sep='\t', header=None, names=['user','song','play_count'])
+    track_metadata_df = pd.read_csv('music/song_data.csv')
+    count_play_df = pd.read_csv('music/10000.txt', sep='\t', header=None, names=['user','song','play_count'])
     unique_track_metadata_df = track_metadata_df.groupby('song_id').max().reset_index()
 
     #print('Number of rows after unique song Id treatment:', unique_track_metadata_df.shape[0])
