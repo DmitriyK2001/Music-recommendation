@@ -34,9 +34,7 @@ def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test, MAX_UID, MAX_PID):
     return recomendRatings
 
 
-def show_recomendations(
-    uTest, uTest_recommended_items, small_set, num_recomendations=10
-):
+def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomendations=10):
     for user in uTest:
         print("-" * 70)
         print("Recommendation for user id {}".format(user))
@@ -46,8 +44,7 @@ def show_recomendations(
             so = uTest_recommended_items[user, i : i + 1][0]
             if (
                 small_set.user[
-                    (small_set.so_index_value == so)
-                    & (small_set.us_index_value == user)
+                    (small_set.so_index_value == so) & (small_set.us_index_value == user)
                 ].count()
                 == 0
             ):

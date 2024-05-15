@@ -15,7 +15,46 @@ dvc = {extras = ["gdrive"], version = "^3.50.2"}
 pre-commit = "^3.7.1"
 black = "^24.4.2"
 isort = "^5.13.2"
+flake8 = "^7.0.0"
+nbqa = "^1.8.5"
 
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+
+[tool.black]
+line-length = 90
+target-version = ["py311"]
+
+[tool.isort]
+src_paths = ["music"]
+profile = "black"
+line_length = 90
+lines_after_imports = 2
+
+[tool.flake8]
+max-line-length = 90
+ignore = ['E203', 'E501', 'W503', 'B950']
+max-complexity = 12
+select = ['B', 'C', 'E', 'F', 'W', 'B9']
+per-file-ignores = [
+    # for easier imports to __init__ without __all__
+    '**/__init__.py: F401',
+    # file to define custom types
+    'types.py: F401',
+]
+count = true
+
+[tool.nbqa.config]
+black = "pyproject.toml"
+isort = "pyproject.toml"
+flake8 = "pyproject.toml"
+
+[tool.nbqa.addopts]
+flake8 = ["--extend-ignore=E402"]
+
+[tool.nbqa.mutate]
+black = 1
+isort = 1
 
 [build-system]
 requires = ["poetry-core"]

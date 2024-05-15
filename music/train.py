@@ -8,10 +8,7 @@ from music.data_loader import preprocess
 def train():
     user_song_list_count = preprocess()
     user_song_list_listen = (
-        user_song_list_count[["user", "listen_count"]]
-        .groupby("user")
-        .sum()
-        .reset_index()
+        user_song_list_count[["user", "listen_count"]].groupby("user").sum().reset_index()
     )
     user_song_list_listen.rename(
         columns={"listen_count": "total_listen_count"}, inplace=True
