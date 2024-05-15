@@ -9,6 +9,7 @@
 ├── command.py
 ├── music
 │   ├── 10000.txt
+│   ├── 10000.txt.dvc
 │   ├── __pycache__
 │   │   ├── data_loader.cpython-311.pyc
 │   │   ├── infer.cpython-311.pyc
@@ -18,6 +19,7 @@
 │   ├── infer.py
 │   ├── model.py
 │   ├── song_data.csv
+│   ├── song_data.csv.dvc
 │   └── train.py
 ├── poetry.lock
 └── pyproject.toml
