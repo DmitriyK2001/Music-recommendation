@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from scipy import io
 from scipy.sparse import coo_matrix

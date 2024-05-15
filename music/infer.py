@@ -3,12 +3,11 @@ import os
 import pandas as pd
 from scipy import io
 
-from music.model import (compute_estimated_matrix, compute_svd,
-                         show_recomendations)
+from music.model import compute_estimated_matrix, compute_svd, show_recomendations
 from music.train import train
 
 
-def infer(K=50, uTest=[1, 2, 3, 4, 5]):
+def infer(K=50, uTest=(1, 2, 3, 4, 5)):
     if not os.path.isfile("music/state_matrix.csv"):
         train()
     data_sparse = io.hb_read("music/state_matrix.csv")
