@@ -11,7 +11,7 @@ fire = "^0.6.0"
 numpy = "^1.26.4"
 scipy = "^1.13.0"
 pandas = "^2.2.2"
-dvc = "^3.50.1"
+dvc = {extras = ["gdrive"], version = "^3.50.2"}
 
 
 [build-system]
