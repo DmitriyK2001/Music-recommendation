@@ -1,11 +1,22 @@
 import pandas as pd
+from hydra import compose, initialize
+from omegaconf import OmegaConf
+
+
+def load_config(hierarchy: str):
+    with initialize(config_path="../config"):
+        cfg = compose(config_name="config")
+        return OmegaConf.to_container(cfg[hierarchy], resolve=True)
 
 
 def preprocess():
     # preprocessing
-    track_metadata_df = pd.read_csv("music/song_data.csv")
+    track_metadata_df = pd.read_csv(load_config("data_loader")["song_data_file"])
     count_play_df = pd.read_csv(
-        "music/10000.txt", sep="\t", header=None, names=["user", "song", "play_count"]
+        load_config("data_loader")["train_file"],
+        sep="\t",
+        header=None,
+        names=["user", "song", "play_count"],
     )
     unique_track_metadata_df = track_metadata_df.groupby("song_id").max().reset_index()
     user_song_list_count = pd.merge(

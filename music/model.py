@@ -4,6 +4,8 @@ import numpy as np
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import svds
 
+from music.data_loader import load_config
+
 
 def compute_svd(urm, K):
     U, s, Vt = svds(urm, K)
@@ -22,7 +24,7 @@ def compute_svd(urm, K):
 
 def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test, MAX_UID, MAX_PID):
     rightTerm = S * Vt
-    max_recommendation = 250
+    max_recommendation = load_config("model")["max_recommendation"]
     estimatedRatings = np.zeros(shape=(MAX_UID, MAX_PID), dtype=np.float16)
     recomendRatings = np.zeros(shape=(MAX_UID, max_recommendation), dtype=np.float16)
     for userTest in uTest:

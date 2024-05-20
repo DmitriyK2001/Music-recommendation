@@ -37,6 +37,7 @@ COPY command.py /Music-recommendation/
 COPY music/ /Music-recommendation/music/
 COPY .dvc/  /Music-recommendation/.dvc/
 COPY .dvcignore /Music-recommendation/
+COPY config/ /Music-recommendation/config/
 
 SHELL ["/bin/bash", "--login", "-c"]
 #setting up work directory
