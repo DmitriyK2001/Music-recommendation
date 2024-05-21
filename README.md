@@ -7,6 +7,8 @@
 ├── Dockerfile
 ├── README.md
 ├── command.py
+├── config
+│   └── config.yaml
 ├── music
 │   ├── 10000.txt
 │   ├── 10000.txt.dvc
@@ -18,8 +20,10 @@
 │   ├── data_loader.py
 │   ├── infer.py
 │   ├── model.py
+│   ├── small_set.csv
 │   ├── song_data.csv
 │   ├── song_data.csv.dvc
+│   ├── state_matrix.csv
 │   └── train.py
 ├── poetry.lock
 └── pyproject.toml
