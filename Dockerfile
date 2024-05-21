@@ -31,12 +31,17 @@ RUN apt-get update && apt-get install git -y
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 #copy necessary files from repository
+#copy poetry files
 COPY pyproject.toml /Music-recommendation/
 COPY poetry.lock /Music-recommendation/
+#copy main faile
 COPY command.py /Music-recommendation/
+#copy train, infer and others
 COPY music/ /Music-recommendation/music/
+#copy files for dvc
 COPY .dvc/  /Music-recommendation/.dvc/
 COPY .dvcignore /Music-recommendation/
+#copy config files
 COPY config/ /Music-recommendation/config/
 
 SHELL ["/bin/bash", "--login", "-c"]
