@@ -3,5 +3,9 @@ version: '3.8'
 services:
   mrs:
     build: .
+    image: mlflow/mlflow:latest
+    ports:
+      - "5000:5000"
     volumes:
-      - ./
+      - .:/mlflow/mlruns
+    command:
