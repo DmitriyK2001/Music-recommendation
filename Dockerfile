@@ -56,9 +56,11 @@ RUN git init
 #RUN dvc pull
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /Music-recommendation/
+
 USER appuser
 
 #starting command.py file with parameter 'infer'
+
 CMD ["python", "command.py", "infer"]
 #for setting
 #ENTRYPOINT ["/bin/bash"]

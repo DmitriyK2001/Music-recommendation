@@ -6,7 +6,8 @@ from scipy.sparse import coo_matrix
 from music.data_loader import load_config, preprocess
 
 
-mlflow.set_tracking_uri("http://localhost:5001")
+# mlflow.set_tracking_uri('http://localhost:5001')
+mlflow.set_tracking_uri("http://host.docker.internal:5001")
 mlflow.set_experiment("MRS expetiment")
 
 
@@ -52,4 +53,5 @@ def train():
         io.hb_write(load_config("train_infer")["state_matrix_file"], data_sparse)
         small_set.to_csv(load_config("train_infer")["small_set_file"], index=False)
         mlflow.log_param("my", "param")
+        mlflow.log_metric("score", 100)
         return data_sparse
