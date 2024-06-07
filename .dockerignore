@@ -9,6 +9,8 @@
 **/.settings
 **/.toolstarget
 **/.vs
+music/state_matrix.csv
+music/small_set.csv
 **/.vscode
 **/*.*proj.user
 **/*.dbmdl
