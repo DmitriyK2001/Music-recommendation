@@ -52,8 +52,9 @@ RUN poetry install
 #git for dvc
 RUN git init
 #load data from gdrive
+#RUN dvc remote add -d myremote gdrive://1AKlGRQjfIm4gCjPL9pkuvC7DQb17tS5o
 #it is commented, because it requires communication in browser, in can't be achieved in docker container
-#RUN dvc pull
+RUN dvc pull
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /Music-recommendation/
 
