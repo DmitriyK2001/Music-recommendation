@@ -123,8 +123,11 @@ def train():
 
                 # place for logs
                 # 1. Log scalar values (scalar summary)
+                mlflow.log_metric("pass", 100)
                 # 2. Log values and gradients of the parameters (histogram summary)
+                mlflow.log_metric("pass", 100)
                 # 3. Log training images (image summary)
+                mlflow.log_metric("passe", 100)
 
         # Test the model
         model.eval()  # eval mode (batchnorm uses moving mean/variance instead of mini-batch mean/variance)
