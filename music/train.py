@@ -2,11 +2,13 @@
 import copy
 import math
 
+import hydra
 import mlflow
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
 from torchsummary import summary
 
@@ -56,13 +58,19 @@ def adjust_learning_rate(optimizer, epoch, learning_rate):
         print(param_group["lr"])
 
 
+@hydra.main(version_base=None, config_path=".", config_name="config")
+def hydra_load_train(cfg: DictConfig):
+    batch_size = cfg.train.batch_size
+    num_epochs = cfg.train.num_epochs
+    learning_rate = cfg.train.learning_rate
+    num_classes = cfg.train.num_classes
+    return batch_size, num_epochs, learning_rate, num_classes
+
+
 def train():
     with mlflow.start_run():
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        num_epochs = 16
-        num_classes = 8
-        batch_size = 128
-        learning_rate = 0.0001
+        batch_size, num_epochs, learning_rate, num_classes = hydra_load_train()
         trainDataset = TrainDataset()
         train_loader = DataLoader(
             dataset=trainDataset, batch_size=batch_size, shuffle=True, num_workers=0
