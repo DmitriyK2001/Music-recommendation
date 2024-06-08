@@ -6,7 +6,6 @@ from scipy.sparse import coo_matrix
 from music.data_loader import load_config, preprocess
 
 
-# mlflow.set_tracking_uri('http://localhost:5001')
 mlflow.set_tracking_uri("http://host.docker.internal:5001")
 mlflow.set_experiment("MRS expetiment")
 
