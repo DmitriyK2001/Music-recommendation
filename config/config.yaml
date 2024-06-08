@@ -1,13 +1,5 @@
-model:
-
 train:
   num_epochs: 16
   num_classes: 8
   batch_size: 128
   learning_rate: 0.0001
-data_loader:
-  song_data_file: "music/song_data.csv"
-  train_file: "music/10000.txt"
-train_infer:
-  state_matrix_file: "music/state_matrix.csv"
-  small_set_file: "music/small_set.csv"
