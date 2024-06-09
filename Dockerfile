@@ -60,7 +60,4 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 #starting command.py file with parameter 'infer'
-
 CMD ["python", "command.py", "infer"]
-#for setting
-#ENTRYPOINT ["/bin/bash"]
