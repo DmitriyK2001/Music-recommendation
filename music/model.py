@@ -72,4 +72,4 @@ def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomenda
             rec_matrix[i][j] = len(rec[i] & rec[j]) / len(rec[i])
     upper_indicies = np.triu_indices(len(uTest), 1)
     upper_elements = rec_matrix[upper_indicies]
-    return np.mean(upper_elements)
+    return 1.0 - np.mean(upper_elements)
