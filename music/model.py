@@ -37,7 +37,9 @@ def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test, MAX_UID, MAX_PID):
 
 
 def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomendations=10):
+    rec = []
     for user in uTest:
+        rec_user = set()
         print("-" * 70)
         print("Recommendation for user id {}".format(user))
         rank_value = 1
@@ -53,6 +55,7 @@ def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomenda
                 song_details = small_set[
                     (small_set.so_index_value == so)
                 ].drop_duplicates("so_index_value")[["title", "artist_name"]]
+                rec_user.add(list(song_details["title"])[0])
                 print(
                     "The number {} recommended song is {} BY {}".format(
                         rank_value,
@@ -62,3 +65,11 @@ def show_recomendations(uTest, uTest_recommended_items, small_set, num_recomenda
                 )
                 rank_value += 1
             i += 1
+        rec.append(rec_user)
+    rec_matrix = np.zeros((len(uTest), len(uTest)))
+    for i in range(len(rec)):
+        for j in range(len(rec)):
+            rec_matrix[i][j] = len(rec[i] & rec[j]) / len(rec[i])
+    upper_indicies = np.triu_indices(len(uTest), 1)
+    upper_elements = rec_matrix[upper_indicies]
+    return np.mean(upper_elements)
