@@ -26,7 +26,7 @@ def infer(K=50, uTest=(1, 2, 3, 4, 5)):
         U, S, Vt = compute_svd(urm, K)
 
         uTest_recommended_items = compute_estimated_matrix(
-            urm, U, S, Vt, uTest, K, True, MAX_UID, MAX_PID
+            U, S, Vt, uTest, MAX_UID, MAX_PID
         )
 
         perc = show_recomendations(uTest, uTest_recommended_items, small_set)

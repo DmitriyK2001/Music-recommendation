@@ -22,7 +22,7 @@ def compute_svd(urm, K):
     return U, S, Vt
 
 
-def compute_estimated_matrix(urm, U, S, Vt, uTest, K, test, MAX_UID, MAX_PID):
+def compute_estimated_matrix(U, S, Vt, uTest, MAX_UID, MAX_PID):
     rightTerm = S * Vt
     max_recommendation = load_config("model")["max_recommendation"]
     estimatedRatings = np.zeros(shape=(MAX_UID, MAX_PID), dtype=np.float16)
