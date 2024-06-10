@@ -2,4 +2,5 @@
 *.txt
 *.csv
 *.pyc
+music/__pycache__
 mlflow.log
