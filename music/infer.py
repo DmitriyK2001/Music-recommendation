@@ -7,7 +7,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from music.torch_model import nn_model
+from music.model.torch_model import nn_model
 
 
 # config device

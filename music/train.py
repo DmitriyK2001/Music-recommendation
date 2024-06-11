@@ -10,7 +10,7 @@ from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
 from torchsummary import summary
 
-from music.torch_model import nn_model
+from music.model.torch_model import nn_model
 
 
 # config device
