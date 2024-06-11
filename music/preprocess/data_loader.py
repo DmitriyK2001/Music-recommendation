@@ -4,7 +4,7 @@ from omegaconf import OmegaConf
 
 
 def load_config(hierarchy: str):
-    with initialize(config_path="../config"):
+    with initialize(config_path="../../config", version_base="1.1"):
         cfg = compose(config_name="config")
         return OmegaConf.to_container(cfg[hierarchy], resolve=True)
 

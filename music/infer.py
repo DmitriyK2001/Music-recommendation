@@ -4,8 +4,12 @@ import mlflow
 import pandas as pd
 from scipy import io
 
-from music.data_loader import load_config
-from music.model import compute_estimated_matrix, compute_svd, show_recomendations
+from music.model.matrix_model import (
+    compute_estimated_matrix,
+    compute_svd,
+    show_recomendations,
+)
+from music.preprocess.data_loader import load_config
 from music.train import train
 
 
