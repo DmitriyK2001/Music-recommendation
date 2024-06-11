@@ -6,3 +6,4 @@ music/__pycache__
 mlflow.log
 Music_Sliced_Images
 *.pt
+.DS_Store
