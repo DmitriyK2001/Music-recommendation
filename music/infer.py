@@ -12,7 +12,7 @@ from music.torch_model import nn_model
 
 # config device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-mlflow.set_tracking_uri("http://localhost:5001")
+mlflow.set_tracking_uri("http://host.docker.internal:5001")
 
 
 class RecommendModel:
