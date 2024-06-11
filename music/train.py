@@ -116,7 +116,6 @@ def train():
                 print(
                     f"epoch: {epoch+1}/{num_epochs}, step: {i+1}/{n_iterations}, loss: {loss.item():.4f}, accuracy: {accuracy:.4f}"
                 )
-            # print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'.format(epoch+1, num_epochs, i+1, total_step, loss.item()))
             # ================================================================== #
             #                        Tensorboard Logging                         #
             # ================================================================== #
