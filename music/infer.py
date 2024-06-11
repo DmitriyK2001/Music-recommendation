@@ -1,78 +1,13 @@
-import os
-import re
-
-import cv2
 import mlflow
 import numpy as np
 import torch
-import torch.nn as nn
-from hydra import compose, initialize
-from omegaconf import OmegaConf
 
-from music.model.torch_model import nn_model
-
-
-def load_config(hierarchy: str):
-    with initialize(config_path="../config", version_base="1.1"):
-        cfg = compose(config_name="config")
-        return OmegaConf.to_container(cfg[hierarchy], resolve=True)
+from music.preprocess.loader import load_config, load_data
 
 
 # config device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 mlflow.set_tracking_uri("http://host.docker.internal:5001")
-
-
-class RecommendModel:
-    """
-    Load model discard last Sofmax layer to predict latent vector
-    """
-
-    def __init__(self, func):
-        self.function = func
-
-    def __call__(self, *args, **kwargs):
-        # Initialize model
-        model_val = nn_model.to(device)
-        # Load model
-        model_val.load_state_dict(torch.load("music/model.pt", map_location="cpu"))
-        model_val.eval()
-        # Discard last Softmax layer
-        removed = list(nn_model.children())[:-1]
-        new_model = nn.Sequential(*removed)
-
-        images, labels = self.function(*args, **kwargs)
-        # images = np.expand_dims(images, axis=1)
-        images = images[:, None, :, :]
-        # print(images.shape)
-        images = images / 255.0
-        # Display list of available test songs.
-        LIST_SONG = [("0", " ")]
-        for k, v in enumerate(np.unique(labels)):
-            LIST_SONG.append(("{}".format(k + 1), v))
-        # print(np.unique(labels))
-        # print(LIST_SONG)
-        return LIST_SONG, images, labels, new_model
-
-
-@RecommendModel
-def load_data():
-    filenames = [
-        os.path.join("Music_Sliced_Images", f)
-        for f in os.listdir("Music_Sliced_Images")
-        if f.endswith(".jpg")
-    ]
-    images = []
-    labels = []
-    for f in filenames:
-        song_variable = re.search(r"Music_Sliced_Images/.*_(.+?).jpg", f).group(1)
-        tempImg = cv2.imread(f, cv2.IMREAD_UNCHANGED)
-        images.append(cv2.cvtColor(tempImg, cv2.COLOR_BGR2GRAY))
-        labels.append(song_variable)
-
-    images = np.array(images)
-
-    return images, labels
 
 
 def recommend_songs(song_name, images, labels, new_model):
@@ -91,7 +26,6 @@ def recommend_songs(song_name, images, labels, new_model):
         for i in range(0, len(labels)):
             if labels[i] == recommend_wrt:
                 test_image = images[i]
-                # test_image = np.expand_dims(test_image, axis=0)
                 test_image = test_image[None, :, :, :]
                 image_trans = torch.from_numpy(test_image.astype(np.float32)).to(device)
                 prediction = new_model(image_trans)
@@ -118,7 +52,6 @@ def recommend_songs(song_name, images, labels, new_model):
         for i in range(len(predictions_song)):
             predictions_song[i] = predictions_song[i] / counts[i]
             # Cosine Similarity - Computes a similarity score of all songs with respect to the anchor song.
-            # cosine = nn.CosineSimilarity(dim=1, eps=1e-6)
             distance_array.append(
                 torch.sum(prediction_anchor * predictions_song[i])
                 / (
@@ -126,7 +59,6 @@ def recommend_songs(song_name, images, labels, new_model):
                     * torch.sqrt(torch.sum(predictions_song[i] ** 2))
                 )
             )
-            # distance_array.append(cosine(prediction_anchor, predictions_song[i]))
         distance_array = torch.tensor(distance_array)
         recommendations = load_config("infer")["recommendations"]
         print("Recommendation is:")
