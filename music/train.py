@@ -1,16 +1,15 @@
 import copy
 import math
 
-import hydra
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
 from torchsummary import summary
 
 from music.model.torch_model import nn_model
+from music.preprocess.loader import load_config
 
 
 # config device
@@ -54,18 +53,12 @@ def adjust_learning_rate(optimizer, epoch, learning_rate):
         print(param_group["lr"])
 
 
-@hydra.main(version_base=None, config_path=".", config_name="config")
-def hydra_load_train(cfg: DictConfig):
-    batch_size = cfg.train.batch_size
-    num_epochs = cfg.train.num_epochs
-    learning_rate = cfg.train.learning_rate
-    num_classes = cfg.train.num_classes
-    return batch_size, num_epochs, learning_rate, num_classes
-
-
 def train():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    batch_size, num_epochs, learning_rate, num_classes = hydra_load_train()
+    batch_size = load_config("train")["batch_size"]
+    num_epochs = load_config("train")["num_epochs"]
+    learning_rate = load_config("train")["learning_rate"]
+    num_classes = load_config("train")["num_classes"]
     trainDataset = TrainDataset()
     train_loader = DataLoader(
         dataset=trainDataset, batch_size=batch_size, shuffle=True, num_workers=0
