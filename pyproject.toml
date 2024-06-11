@@ -22,6 +22,7 @@ torchsummary = "^1.5.1"
 argparse = "^1.4.0"
 scikit-learn = "^1.5.0"
 opencv-python = "^4.10.0.82"
+opencv-python-headless = "^4.10.0.82"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"

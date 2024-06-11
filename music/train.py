@@ -1,4 +1,3 @@
-# from logger import Logger
 import copy
 import math
 
@@ -15,8 +14,6 @@ from music.torch_model import nn_model
 
 
 # config device
-# mlflow.set_tracking_uri("http://host.docker.internal:5001")
-# mlflow.set_experiment("nn expetiment")
 
 
 class TrainDataset(Dataset):
@@ -67,7 +64,6 @@ def hydra_load_train(cfg: DictConfig):
 
 
 def train():
-    # with mlflow.start_run():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size, num_epochs, learning_rate, num_classes = hydra_load_train()
     trainDataset = TrainDataset()
@@ -79,7 +75,6 @@ def train():
     # Initialize model
     model = nn_model.to(device)
     summary(model, input_size=(1, 128, 128))
-    # logger = Logger('./logs')
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
     total_samples = len(trainDataset)
@@ -128,11 +123,8 @@ def train():
 
             # place for logs
             # 1. Log scalar values (scalar summary)
-            # mlflow.log_metric("pass", 100)
             # 2. Log values and gradients of the parameters (histogram summary)
-            # mlflow.log_metric("pass", 100)
             # 3. Log training images (image summary)
-            # mlflow.log_metric("pass", 100)
 
     # Test the model
     model.eval()  # eval mode (batchnorm uses moving mean/variance instead of mini-batch mean/variance)

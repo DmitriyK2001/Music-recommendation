@@ -29,6 +29,9 @@ RUN apt-get install gcc python3-dev -y
 RUN apt-get update && apt-get install git -y
 # Download poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
+    RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0
 
 #copy necessary files from repository
 #copy poetry files
