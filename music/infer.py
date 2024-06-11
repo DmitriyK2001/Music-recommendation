@@ -2,6 +2,7 @@ import os
 import re
 
 import cv2
+import mlflow
 import numpy as np
 import torch
 import torch.nn as nn
@@ -11,6 +12,7 @@ from music.torch_model import nn_model
 
 # config device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+mlflow.set_tracking_uri("http://localhost:5001")
 
 
 class RecommendModel:
@@ -34,14 +36,14 @@ class RecommendModel:
         images, labels = self.function(*args, **kwargs)
         # images = np.expand_dims(images, axis=1)
         images = images[:, None, :, :]
-        print(images.shape)
+        # print(images.shape)
         images = images / 255.0
         # Display list of available test songs.
         LIST_SONG = [("0", " ")]
         for k, v in enumerate(np.unique(labels)):
             LIST_SONG.append(("{}".format(k + 1), v))
         # print(np.unique(labels))
-        print(LIST_SONG)
+        # print(LIST_SONG)
         return LIST_SONG, images, labels, new_model
 
 
@@ -157,7 +159,12 @@ def recommend_songs(song_name, images, labels, new_model):
 
 def infer():
     SONGS_CHOICES, images, labels, new_model = load_data()
-    for _, k in SONGS_CHOICES[0:2]:
+    for _, k in SONGS_CHOICES[1:5]:
+        mlflow.set_experiment(f"infer for {k}")
         song = k
-        return_dict = recommend_songs(song, images, labels, new_model)
-        print(return_dict)
+        print(f"Recommendation for {song}")
+        recommended = recommend_songs(song, images, labels, new_model)
+        for i in range(1, len(recommended)):
+            with mlflow.start_run():
+                mlflow.log_metric("cosine similarity", recommended[i]["value"])
+                mlflow.log_param("recommended_song", recommended[i]["name"])
