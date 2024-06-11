@@ -6,8 +6,16 @@ import mlflow
 import numpy as np
 import torch
 import torch.nn as nn
+from hydra import compose, initialize
+from omegaconf import OmegaConf
 
 from music.model.torch_model import nn_model
+
+
+def load_config(hierarchy: str):
+    with initialize(config_path="../config", version_base="1.1"):
+        cfg = compose(config_name="config")
+        return OmegaConf.to_container(cfg[hierarchy], resolve=True)
 
 
 # config device
@@ -69,7 +77,7 @@ def load_data():
 
 def recommend_songs(song_name, images, labels, new_model):
     # Initialization latent factors vector size
-    matrix_size = 40
+    matrix_size = load_config("infer")["matrix_size"]
     # Enter a song name which will be an anchor song.)
     recommend_wrt = song_name
     prediction_anchor = torch.zeros((1, matrix_size)).to(device)
@@ -120,7 +128,7 @@ def recommend_songs(song_name, images, labels, new_model):
             )
             # distance_array.append(cosine(prediction_anchor, predictions_song[i]))
         distance_array = torch.tensor(distance_array)
-        recommendations = 2
+        recommendations = load_config("infer")["recommendations"]
         print("Recommendation is:")
         list_song = []
         choose_song = {
@@ -131,7 +139,8 @@ def recommend_songs(song_name, images, labels, new_model):
         }
         list_song.append(choose_song)
         # Number of Recommendations is set to 2.
-        while recommendations < 4:
+        max_recommendations = load_config("infer")["max_recommendations"]
+        while recommendations < max_recommendations:
             index = torch.argmax(distance_array)
             value = distance_array[index]
             print(
