@@ -3,3 +3,6 @@
 *.csv
 *.pyc
 mlflow.log
+*.pt
+*.DS_Store
+Music_Sliced_Images

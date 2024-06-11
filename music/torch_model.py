@@ -29,7 +29,7 @@ def conv_layer_averpl(ni, nf):
     return nn.Sequential(conv_layer(ni, nf), aver_pl)
 
 
-model = nn.Sequential(
+nn_model = nn.Sequential(
     conv_layer_averpl(1, 64),
     ResBlock(64),
     conv_layer_averpl(64, 64),

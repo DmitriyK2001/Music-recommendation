@@ -6,7 +6,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from music.torch_model import model
+from music.torch_model import nn_model
 
 
 # config device
@@ -23,12 +23,12 @@ class RecommendModel:
 
     def __call__(self, *args, **kwargs):
         # Initialize model
-        model_val = model.to(device)
+        model_val = nn_model.to(device)
         # Load model
         model_val.load_state_dict(torch.load("music/model.pt", map_location="cpu"))
         model_val.eval()
         # Discard last Softmax layer
-        removed = list(model.children())[:-1]
+        removed = list(nn_model.children())[:-1]
         new_model = nn.Sequential(*removed)
 
         images, labels = self.function(*args, **kwargs)
