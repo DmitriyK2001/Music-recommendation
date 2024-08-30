@@ -2,7 +2,7 @@ import pandas as pd
 from scipy import io
 from scipy.sparse import coo_matrix
 
-from music.data_loader import load_config, preprocess
+from music.preprocess.data_loader import load_config, preprocess
 
 
 def train():

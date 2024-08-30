@@ -4,7 +4,7 @@ import numpy as np
 from scipy.sparse import csc_matrix
 from scipy.sparse.linalg import svds
 
-from music.data_loader import load_config
+from music.preprocess.data_loader import load_config
 
 
 def compute_svd(urm, K):
